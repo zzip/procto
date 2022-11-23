@@ -44,3 +44,29 @@ describe Procto, '.call' do
     end
   end
 end
+
+describe Procto, '.call' do
+  subject { klass.call(user: 'user', name: 'name') }
+
+  context 'with kwargs' do
+    let(:klass) do
+      Class.new do
+        include Procto.call
+
+        def initialize(user:, name:, city: nil)
+          @user = user
+          @name = name
+          @city = city
+        end
+
+        def call
+          "Hello #{@name}, you are #{@user} from #{@city}"
+        end
+      end
+    end
+
+    it 'works' do
+      expect(subject).to eq 'Hello name, you are user from '
+    end
+  end
+end
